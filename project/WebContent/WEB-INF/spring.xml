@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<bean id="ds" 
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="username" value="hr"/>
+		<property name="password" value="java1003"/>
+		<property name="driverClassName" 
+			value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" 
+			value="jdbc:oracle:thin:@192.168.0.13:1521:XE"/>
+	</bean>
+	
+	<bean id="jtpl" 
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds"/>
+	</bean>
+	
+	
+	<bean id="txmgr" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds"/>
+	</bean>
+	
+	<bean id="txtpl" 
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="txmgr"/>
+	</bean>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<bean class="main.DaoAspect">
+		<property name="transactionTemplate" ref="txtpl"/>
+	</bean>
+	
+	
+	<!-- dbcp / jtpl / Aspect 설정부분 -->
+	
+	
+	
+	
+	
+	<!-- 유저 / 게시판 / 영화 / 웃긴동여상 / 음악동영상 / 사진 / 안전팁
+		 SW공부 / 생각노트 / 아이디어
+	-->
+	
+	<!-- 유저 -->
+	<bean id="userDao" class="user.UserDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 게시판 -->
+	<bean id="bangDao" class="bang.BangDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replybangDao" class="bang.ReplyBangDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 영화 -->
+	<bean id="movievideoDao" class="movievideo.MovieVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replymovievideoDao" class="movievideo.ReplyMovieVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+
+	<!-- 음악동영상 -->
+	<bean id="musicvideoDao" class="musicvideo.MusicVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replymusicvideoDao" class="musicvideo.ReplyMusicVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 웃긴동영상 -->
+	<bean id="funvideoDao" class="funvideo.FunVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replyfunvideoDao" class="funvideo.ReplyFunVideoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+
+	<!-- 사진 -->
+	<bean id="pictureDao" class="picture.PictureDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replypictureDao" class="picture.ReplyPictureDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 아이디어 -->
+	<bean id="ideaDao" class="idea.IdeaDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replyideaDao" class="idea.ReplyIdeaDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 안전팁 -->
+	<bean id="safetipDao" class="safetip.SafeTipDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replysafetipDao" class="safetip.ReplySafeTipDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 생활팁 -->
+	<bean id="lifetipDao" class="lifetip.LifeTipDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replylifetipDao" class="lifetip.ReplyLifeTipDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- SW공부 -->
+	<bean id="swstudyDao" class="swstudy.SWStudyoDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replyswstudyDao" class="swstudy.ReplySWStudyDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	<!-- 생각노트 -->
+	<bean id="thinknoteDao" class="thinknote.ThinkNoteDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	<bean id="replythinknoteDao" class="thinknote.ReplyThinkNoteDao_OracleImpl">
+		<property name="jdbcTemplate" ref="jtpl"/>
+	</bean>
+	
+	
+	
+	
+	
+	
+	<bean class="main.CtrlAll">
+		<property name="userDao" ref="userDao"/>
+		
+		<property name="bangDao" ref="bangDao"/>
+		<property name="replybangDao" ref="replybangDao"/>
+		
+		<property name="movievideoDao" ref="movievideoDao"/>
+		<property name="replymovievideoDao" ref="replymovievideoDao"/>
+	
+		<property name="musicvideoDao" ref="musicvideoDao"/>
+		<property name="replymusicvideoDao" ref="replymusicvideoDao"/>
+		
+		<property name="funvideoDao" ref="funvideoDao"/>
+		<property name="replyfunvideoDao" ref="replyfunvideoDao"/>
+		
+		<property name="pictureDao" ref="pictureDao"/>
+		<property name="replypictureDao" ref="replypictureDao"/>
+	
+		<property name="ideaDao" ref="ideaDao"/>
+		<property name="replyideaDao" ref="replyideaDao"/>
+		
+		<property name="safetipDao" ref="safetipDao"/>
+		<property name="replysafetipDao" ref="replysafetipDao"/>
+	
+		<property name="lifetipDao" ref="lifetipDao"/>
+		<property name="replylifetipDao" ref="replylifetipDao"/>
+		
+		<property name="thinknoteDao" ref="thinknoteDao"/>
+		<property name="replythinknoteDao" ref="replythinknoteDao"/>
+		
+		<property name="swstudyDao" ref="swstudyDao"/>
+		<property name="replyswstudyDao" ref="replyswstudyDao"/>
+
+	</bean> <!-- 포인터로 설정할 경우 -->
+	
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	
+	<bean id="viewResolver" 
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>	
+	
+</beans>
